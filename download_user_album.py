@@ -6,6 +6,7 @@ import math
 import os
 import argparse
 import configparser
+import time
 
 USER_URL = 'https://api.unsplash.com/users/'
 HEADS = {'Accept-Version': 'v1'}
@@ -118,8 +119,11 @@ def save_photos(user_directory, photo_ids):
     else:
         for k, v in photo_ids.items():
             photo_download_response = requests.get(photo_ids[k], stream=True)
+            print(user_directory + r'/' + k + '.jpg')
             with open(user_directory + r'/' + k + '.jpg', 'wb') as out_file:
                 shutil.copyfileobj(photo_download_response.raw, out_file)
+            print('waiting 2 minutes')
+            time.sleep(120)
         print('successfully downloaded {} photos in "{}" folder'.format(len(photo_ids),
                                                                         user_directory[user_directory.rfind('/') + 1:]))
 
